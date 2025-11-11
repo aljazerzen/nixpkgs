@@ -1,6 +1,7 @@
 {
   lib,
-  fetchPypi,
+  fetchFromGitHub,
+  runCommand,
   rustPlatform,
   python3Packages,
   versionCheckHook,
@@ -12,10 +13,29 @@ python3Packages.buildPythonApplication rec {
   version = "0.0.5";
   pyproject = true;
 
-  src = fetchPypi {
-    inherit pname version;
-    hash = "sha256-5krDGJdgKmxKsdWNdjhuCrxChTnLsvdDIRG2+K+o8Z4=";
-  };
+  src =
+    let
+      zensical = fetchFromGitHub {
+        owner = "aljazerzen";
+        repo = "zensical";
+        rev = "new-permissions";
+        hash = "sha256-Fh7ZWpf49RHv9Wz+ZWLJO2FBEMzR/0LqhLN1blcma4s=";
+      };
+      ui = fetchFromGitHub {
+        owner = "zensical";
+        repo = "ui";
+        rev = "3fe06b9ce12f4e7142d34d83cf3085d345318a43";
+        hash = "sha256-CXj+C8GvBVrydUp8GjkX1857msclknHSXqyJ+BoBQvU=";
+      };
+    in
+    runCommand "combined" { } ''
+      mkdir -p $out
+      cp -r ${zensical}/. $out/
+
+      chmod u+w $out/python/zensical
+      mkdir $out/python/zensical/templates
+      cp -r ${ui}/dist/. $out/python/zensical/templates
+    '';
 
   cargoDeps = rustPlatform.fetchCargoVendor {
     inherit src;
