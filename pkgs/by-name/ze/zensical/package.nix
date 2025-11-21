@@ -10,7 +10,7 @@
 
 python3Packages.buildPythonApplication rec {
   pname = "zensical";
-  version = "0.0.5";
+  version = "0.0.9";
   pyproject = true;
 
   src =
@@ -18,8 +18,8 @@ python3Packages.buildPythonApplication rec {
       zensical = fetchFromGitHub {
         owner = "aljazerzen";
         repo = "zensical";
-        rev = "new-permissions";
-        hash = "sha256-Fh7ZWpf49RHv9Wz+ZWLJO2FBEMzR/0LqhLN1blcma4s=";
+        rev = "prepublish";
+        hash = "sha256-deol3wnMghML0IaEVWJvvXfr+MG6XlNfmxhzPNXHaoo=";
       };
       ui = fetchFromGitHub {
         owner = "zensical";
@@ -39,7 +39,7 @@ python3Packages.buildPythonApplication rec {
 
   cargoDeps = rustPlatform.fetchCargoVendor {
     inherit src;
-    hash = "sha256-ljNoAaqXAVbnF/9RbXdWvJAac8sh0W3v53YtgiNQEng=";
+    hash = "sha256-n5PL2FhWKf7+TDcuQG8/xwViVXGcILdu60MXMbr3KUE=";
   };
 
   nativeBuildInputs = with rustPlatform; [
